@@ -1,4 +1,7 @@
+# src/widget.py
+
 from src.masks import get_mask_card_number, get_mask_account
+
 
 def mask_account_card(data: str) -> str:
     """
@@ -17,13 +20,18 @@ def mask_account_card(data: str) -> str:
     'Счет **4305'
     """
     if "Счет" in data:
+        # Разделяем строку на тип и номер счета
         account_number = data.split()[1]
+        # Маскируем номер счета
         masked_number = get_mask_account(int(account_number))
         return f"Счет {masked_number}"
     else:
-        card_number = data.split()[1]
+        # Определяем количество слов в типе карты
+        card_type_words = len(data.split()) - 1
+        card_number = data.split()[card_type_words]
         masked_number = get_mask_card_number(int(card_number))
-        return f"{data.split()[0]} {data.split()[1][:2]}** **** {masked_number[-4:]}"
+        # Собираем тип карты и маскированный номер
+        return f"{' '.join(data.split()[:card_type_words])} {masked_number}"
 
 
 def get_date(date_str: str) -> str:
