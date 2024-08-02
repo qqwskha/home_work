@@ -1,5 +1,6 @@
 # src/masks.py
 
+
 def get_mask_card_number(card_number: int) -> str:
     """
     Маскирует номер карты по правилу XXXX XX** **** XXXX.
