@@ -5,43 +5,51 @@ def filter_by_state(data_list, state='EXECUTED'):
     """
     Фильтрует список словарей по заданному состоянию.
 
-    :param data_list: list, список словарей с ключом 'state'.
-    :param state: str, состояние для фильтрации (по умолчанию 'EXECUTED').
-    :return: list, отфильтрованный список словарей.
+    :param data_list: list
+        Список словарей, каждый из которых содержит ключ 'state'.
+    :param state: str, optional
+        Состояние для фильтрации. По умолчанию используется 'EXECUTED'.
+    :return: list
+        Новый список словарей, отфильтрованный по указанному состоянию.
+
+    Примеры использования:
+    >>> data = [
+    ...     {'id': 1, 'state': 'EXECUTED', 'date': '2023-11-01T12:00:00'},
+    ...     {'id': 2, 'state': 'CANCELED', 'date': '2023-11-02T13:00:00'}
+    ... ]
+    >>> filter_by_state(data)
+    [{'id': 1, 'state': 'EXECUTED', 'date': '2023-11-01T12:00:00'}]
+    >>> filter_by_state(data, state='CANCELED')
+    [{'id': 2, 'state': 'CANCELED', 'date': '2023-11-02T13:00:00'}]
     """
     return [item for item in data_list if item.get('state') == state]
 
 
 def sort_by_date(data_list, descending=True):
     """
-    Сортирует список словарей по дате.
+    Сортирует список словарей по ключу 'date'.
 
-    :param data_list: list, список словарей с ключом 'date'.
-    :param descending: bool, порядок сортировки (по умолчанию по убыванию).
-    :return: list, отсортированный список.
+    :param data_list: list
+        Список словарей, каждый из которых содержит ключ 'date' в формате ISO 8601.
+    :param descending: bool, optional
+        Если True, сортировка по убыванию (самые последние даты в начале).
+        Если False, сортировка по возрастанию. По умолчанию True.
+    :return: list
+        Новый список словарей, отсортированный по ключу 'date'.
+
+    Примеры использования:
+    >>> data = [
+    ...     {'id': 1, 'state': 'EXECUTED', 'date': '2023-11-01T12:00:00'},
+    ...     {'id': 2, 'state': 'CANCELED', 'date': '2023-11-02T13:00:00'}
+    ... ]
+    >>> sort_by_date(data)
+    [{'id': 2, 'state': 'CANCELED', 'date': '2023-11-02T13:00:00'}, {'id': 1, 'state': 'EXECUTED', 'date': '2023-11-01T12:00:00'}]
+    >>> sort_by_date(data, descending=False)
+    [{'id': 1, 'state': 'EXECUTED', 'date': '2023-11-01T12:00:00'}, {'id': 2, 'state': 'CANCELED', 'date': '2023-11-02T13:00:00'}]
     """
     return sorted(data_list, key=lambda x: datetime.fromisoformat(x['date']), reverse=descending)
 
 
-# Тестовые данные
 if __name__ == "__main__":
-    data = [
-        {'id': 41428829, 'state': 'EXECUTED', 'date': '2019-07-03T18:35:29.512364'},
-        {'id': 939719570, 'state': 'EXECUTED', 'date': '2018-06-30T02:08:58.425572'},
-        {'id': 594226727, 'state': 'CANCELED', 'date': '2018-09-12T21:27:25.241689'},
-        {'id': 615064591, 'state': 'CANCELED', 'date': '2018-10-14T08:21:33.419441'}
-    ]
-
-    # Пример работы filter_by_state
-    print("Фильтрация по состоянию 'EXECUTED':")
-    print(filter_by_state(data))
-
-    print("\nФильтрация по состоянию 'CANCELED':")
-    print(filter_by_state(data, state='CANCELED'))
-
-    # Пример работы sort_by_date
-    print("\nСортировка по дате (по убыванию):")
-    print(sort_by_date(data))
-
-    print("\nСортировка по дате (по возрастанию):")
-    print(sort_by_date(data, descending=False))
+    import doctest
+    doctest.testmod()
