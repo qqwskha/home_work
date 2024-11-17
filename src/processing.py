@@ -1,16 +1,17 @@
 from datetime import datetime
+from typing import List, Dict
 
 
-def filter_by_state(data_list, state='EXECUTED'):
+def filter_by_state(data_list: List[Dict], state: str = 'EXECUTED') -> List[Dict]:
     """
     Фильтрует список словарей по заданному состоянию.
 
-    :param data_list: list
+    :param data_list: List[Dict]
         Список словарей, каждый из которых содержит ключ 'state'.
     :param state: str, optional
-        Состояние для фильтрации. По умолчанию используется 'EXECUTED'.
-    :return: list
-        Новый список словарей, отфильтрованный по указанному состоянию.
+        Состояние для фильтрации. По умолчанию 'EXECUTED'.
+    :return: List[Dict]
+        Отфильтрованный список словарей.
 
     Примеры использования:
     >>> data = [
@@ -25,17 +26,16 @@ def filter_by_state(data_list, state='EXECUTED'):
     return [item for item in data_list if item.get('state') == state]
 
 
-def sort_by_date(data_list, descending=True):
+def sort_by_date(data_list: List[Dict], descending: bool = True) -> List[Dict]:
     """
     Сортирует список словарей по ключу 'date'.
 
-    :param data_list: list
-        Список словарей, каждый из которых содержит ключ 'date' в формате ISO 8601.
+    :param data_list: List[Dict]
+        Список словарей, содержащих ключ 'date' в формате ISO 8601.
     :param descending: bool, optional
-        Если True, сортировка по убыванию (самые последние даты в начале).
-        Если False, сортировка по возрастанию. По умолчанию True.
-    :return: list
-        Новый список словарей, отсортированный по ключу 'date'.
+        Порядок сортировки: True для убывания, False для возрастания. По умолчанию True.
+    :return: List[Dict]
+        Отсортированный список словарей.
 
     Примеры использования:
     >>> data = [
