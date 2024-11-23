@@ -1,6 +1,7 @@
 # src/widget.py
 
 from src.masks import get_mask_account, get_mask_card_number
+from datetime import datetime
 
 
 def mask_account_card(data: str) -> str:
@@ -19,19 +20,30 @@ def mask_account_card(data: str) -> str:
     >>> mask_account_card("Счет 73654108430135874305")
     'Счет **4305'
     """
+    parts = data.split()
+    if not parts:
+        raise ValueError("Input data is empty.")
+
     if "Счет" in data:
-        # Разделяем строку на тип и номер счета
-        account_number = data.split()[1]
+        if len(parts) < 2:
+            raise ValueError("Account number is missing.")
+        account_number = parts[1]
+        if not account_number.isdigit():
+            raise ValueError("Account number must be numeric.")
         # Маскируем номер счета
         masked_number = get_mask_account(int(account_number))
         return f"Счет {masked_number}"
     else:
-        # Определяем количество слов в типе карты
-        card_type_words = len(data.split()) - 1
-        card_number = data.split()[card_type_words]
+        if len(parts) < 2:
+            raise ValueError("Card number is missing.")
+        card_number = parts[-1]
+        if not card_number.isdigit():
+            raise ValueError("Card number must be numeric.")
+        # Маскируем номер карты
         masked_number = get_mask_card_number(int(card_number))
         # Собираем тип карты и маскированный номер
-        return f"{' '.join(data.split()[:card_type_words])} {masked_number}"
+        card_type = ' '.join(parts[:-1])
+        return f"{card_type} {masked_number}"
 
 
 def get_date(date_str: str) -> str:
@@ -49,6 +61,9 @@ def get_date(date_str: str) -> str:
     >>> get_date("2024-03-11T02:26:18.671407")
     '11.03.2024'
     """
-    date_part = date_str.split("T")[0]
-    year, month, day = date_part.split("-")
-    return f"{day}.{month}.{year}"
+    try:
+        # Проверяем корректность формата даты
+        date = datetime.fromisoformat(date_str)
+        return date.strftime("%d.%m.%Y")
+    except (ValueError, TypeError) as e:
+        raise ValueError(f"Invalid date string: {date_str}") from e
