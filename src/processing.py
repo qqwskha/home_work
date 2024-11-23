@@ -47,7 +47,11 @@ def sort_by_date(data_list: List[Dict], descending: bool = True) -> List[Dict]:
     >>> sort_by_date(data, descending=False)
     [{'id': 1, 'state': 'EXECUTED', 'date': '2023-11-01T12:00:00'}, {'id': 2, 'state': 'CANCELED', 'date': '2023-11-02T13:00:00'}]
     """
-    return sorted(data_list, key=lambda x: datetime.fromisoformat(x['date']), reverse=descending)
+    return sorted(
+        data_list,
+        key=lambda x: datetime.fromisoformat(x['date']),
+        reverse=descending
+    )
 
 
 if __name__ == "__main__":
