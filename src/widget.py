@@ -47,8 +47,7 @@ def get_date(date_str: str) -> str:
 
     Примеры:
     >>> get_date("2024-03-11T02:26:18.671407")
-    '11.03.2024'
-    """
+    '11.03.2024'    """
     date_part = date_str.split("T")[0]
     year, month, day = date_part.split("-")
     return f"{day}.{month}.{year}"
