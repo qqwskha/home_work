@@ -48,11 +48,9 @@ def card_number_generator(start: int, stop: int) -> Generator[str, None, None]:
     :yield: номер карты в формате строки.
 
     Пример использования:
-    >>> for card in card_number_generator(1, 3):
-    ...     print(card)
-    0000 0000 0000 0001
-    0000 0000 0000 0002
-    0000 0000 0000 0003
+    >>> list(card_number_generator(1, 3))
+    ['0000 0000 0000 0001', '0000 0000 0000 0002', '0000 0000 0000 0003']
     """
     for number in range(start, stop + 1):
-        yield f"{number:016}".replace("", " ")[1:-1]
+        card_number = f"{number:016}"  # Форматируем в строку длиной 16 символов с ведущими нулями
+        yield f"{card_number[:4]} {card_number[4:8]} {card_number[8:12]} {card_number[12:]}"
