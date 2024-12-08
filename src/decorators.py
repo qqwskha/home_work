@@ -1,6 +1,7 @@
 import logging
 from functools import wraps
 from typing import Callable, Any, Optional
+import sys
 
 
 def log(filename: Optional[str] = None) -> Callable:
@@ -12,22 +13,27 @@ def log(filename: Optional[str] = None) -> Callable:
     :return: Callable
         Декорированная функция.
     """
-    logger = logging.getLogger("function_logger")
-    logger.setLevel(logging.INFO)
-
-    # Настройка обработчика
-    if filename:
-        handler = logging.FileHandler(filename)
-    else:
-        handler = logging.StreamHandler()
-
-    # Формат логов
-    handler.setFormatter(logging.Formatter('%(asctime)s - %(message)s'))
-    logger.addHandler(handler)
 
     def decorator(func: Callable) -> Callable:
         @wraps(func)
         def wrapper(*args: Any, **kwargs: Any) -> Any:
+            logger = logging.getLogger(func.__name__)
+            logger.setLevel(logging.INFO)
+
+            # Удаление старых обработчиков
+            if logger.hasHandlers():
+                logger.handlers.clear()
+
+            # Логирование в файл или консоль
+            if filename:
+                handler = logging.FileHandler(filename)
+            else:
+                handler = logging.StreamHandler(sys.stdout)
+
+            formatter = logging.Formatter('%(asctime)s - %(message)s')
+            handler.setFormatter(formatter)
+            logger.addHandler(handler)
+
             try:
                 logger.info(f"Function '{func.__name__}' started with args={args}, kwargs={kwargs}")
                 result = func(*args, **kwargs)
@@ -36,6 +42,8 @@ def log(filename: Optional[str] = None) -> Callable:
             except Exception as e:
                 logger.error(f"Function '{func.__name__}' raised {type(e).__name__} with args={args}, kwargs={kwargs}")
                 raise
+            finally:
+                logger.removeHandler(handler)  # Удаление обработчика
 
         return wrapper
 
