@@ -1,14 +1,14 @@
 import logging
-from functools import wraps
-from typing import Callable, Any, Optional
 import sys
+from functools import wraps
+from typing import Any, Callable, Optional, Union
 
 
 def log(filename: Optional[str] = None) -> Callable:
     """
     Декоратор, логирующий выполнение функции.
 
-    :param filename: str | None
+    :param filename: Optional[str]
         Имя файла для записи логов. Если не указано, логи выводятся в консоль.
     :return: Callable
         Декорированная функция.
@@ -25,6 +25,7 @@ def log(filename: Optional[str] = None) -> Callable:
                 logger.handlers.clear()
 
             # Логирование в файл или консоль
+            handler: Union[logging.FileHandler, logging.StreamHandler]
             if filename:
                 handler = logging.FileHandler(filename)
             else:

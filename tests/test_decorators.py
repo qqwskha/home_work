@@ -1,6 +1,8 @@
-import pytest
-from src.decorators import log
 import os
+
+import pytest
+
+from src.decorators import log
 
 
 # Функции для тестирования
@@ -10,14 +12,14 @@ def func_success(a: int, b: int) -> int:
 
 
 @log(filename="test_log.txt")
-def func_error(a: int, b: int) -> int:
+def func_error(a: int, b: int) -> float:
     return a / b
 
 
 # Тесты
-def test_success_logging(capsys):
+def test_success_logging(capsys: pytest.CaptureFixture[str]) -> None:
     """Тест успешного выполнения функции и логирования в консоль."""
-    result = func_success(1, 2)
+    result: int = func_success(1, 2)
     assert result == 3
 
     # Проверяем вывод в консоль
@@ -26,7 +28,7 @@ def test_success_logging(capsys):
     assert "Function 'func_success' finished successfully with result=3" in captured.out
 
 
-def test_error_logging():
+def test_error_logging() -> None:
     """Тест обработки исключений и логирования в файл."""
     log_file = "test_log.txt"
 
