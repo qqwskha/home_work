@@ -70,5 +70,15 @@ print(sorted_data)
 ### Преобразование даты
 `print(get_date("2024-03-11T02:26:18.671407"))  # '11.03.2024'`
 
+### Декоратор `log`
+
+`from src.decorators import log`
+
+`@log(filename="mylog.txt")`
+`def add(a, b):
+    return a + b`
+
+`add(1, 2)`
+
 
 
