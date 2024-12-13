@@ -43,9 +43,11 @@ def sort_by_date(data_list: List[Dict], descending: bool = True) -> List[Dict]:
     ...     {'id': 2, 'state': 'CANCELED', 'date': '2023-11-02T13:00:00'}
     ... ]
     >>> sort_by_date(data)
-    [{'id': 2, 'state': 'CANCELED', 'date': '2023-11-02T13:00:00'}, {'id': 1, 'state': 'EXECUTED', 'date': '2023-11-01T12:00:00'}]
+    [{'id': 2, 'state': 'CANCELED', 'date': '2023-11-02T13:00:00'},
+    {'id': 1, 'state': 'EXECUTED', 'date': '2023-11-01T12:00:00'}]
     >>> sort_by_date(data, descending=False)
-    [{'id': 1, 'state': 'EXECUTED', 'date': '2023-11-01T12:00:00'}, {'id': 2, 'state': 'CANCELED', 'date': '2023-11-02T13:00:00'}]
+    [{'id': 1, 'state': 'EXECUTED', 'date': '2023-11-01T12:00:00'},
+    {'id': 2, 'state': 'CANCELED', 'date': '2023-11-02T13:00:00'}]
     """
     return sorted(
         data_list,

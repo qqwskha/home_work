@@ -80,5 +80,26 @@ print(sorted_data)
 
 `add(1, 2)`
 
+## Чтение данных из JSON
+
+### Функция для чтения данных о транзакциях из JSON-файла:
+
+`from src.utils import read_json_file`
+
+`transactions = read_json_file("data/operations.json")
+print(transactions)`
+
+Если файл пустой, содержит некорректные данные или не найден, возвращается пустой список.
+
+## Конвертация валюты
+
+### Функция для конвертации суммы транзакции в рубли:
+
+`from src.external_api import convert_to_rub`
+
+`transaction = {"currency": "USD", "amount": 100.0}
+amount_in_rub = convert_to_rub(transaction)
+print(f"Сумма в рублях: {amount_in_rub}")`
+
 
 
