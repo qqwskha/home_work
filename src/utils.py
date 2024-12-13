@@ -1,6 +1,6 @@
-import logging
 import json
-from typing import List, Dict
+import logging
+from typing import Dict, List
 
 # Настройка логирования
 logger = logging.getLogger(__name__)
