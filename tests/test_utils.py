@@ -1,6 +1,6 @@
-from pathlib import Path
-
+import pytest
 from src.utils import read_json_file
+from pathlib import Path
 
 
 def test_read_json_file_existing_file(tmp_path: Path) -> None:
