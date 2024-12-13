@@ -26,7 +26,7 @@
 ## Проверка покрытия тестами
 
 Для проверки покрытия кода тестами выполните команду:
-- `pytest --cov`
+- `pytest --cov=src --cov-report=html`
 
 # Использование
 
@@ -100,6 +100,21 @@ print(transactions)`
 `transaction = {"currency": "USD", "amount": 100.0}
 amount_in_rub = convert_to_rub(transaction)
 print(f"Сумма в рублях: {amount_in_rub}")`
+
+
+## Логирование:
+
+### Все операции логируются в файлы:
+
+* Логи модуля `masks` сохраняются в `logs/masks.log`.
+* Логи модуля `utils` сохраняются в `logs/utils.log`.
+
+### Формат логов включает:
+
+* Время события.
+* Имя модуля.
+* Уровень серьезности (`DEBUG`, `INFO`, `ERROR`).
+* Сообщение.
 
 
 
