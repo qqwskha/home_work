@@ -131,3 +131,85 @@ transactions = read_transactions_from_csv("data/transactions.csv")
 print(transactions) 
 ```
 
+# Функциональность
+
+## Фильтрация транзакций по статусу
+
+Используйте функцию `filter_by_state` для фильтрации транзакций по статусу:
+
+```python
+from src.processing import filter_by_state
+
+transactions = [{"id": 1, "state": "EXECUTED"}, {"id": 2, "state": "CANCELED"}]
+filtered = filter_by_state(transactions, "EXECUTED")
+print(filtered)  # [{'id': 1, 'state': 'EXECUTED'}]
+```
+
+## Сортировка транзакций по дате
+
+Функция `sort_by_date` сортирует транзакции по дате:
+
+```python
+from src.processing import sort_by_date
+
+transactions = [{"id": 1, "date": "2023-12-01"}, {"id": 2, "date": "2023-11-30"}]
+sorted_transactions = sort_by_date(transactions, ascending=True)
+print(sorted_transactions)
+```
+## Поиск транзакций по описанию
+
+Функция `filter_transactions_by_description` ищет транзакции, соответствующие строке:
+
+```python
+from src.filters import filter_transactions_by_description
+
+transactions = [{"description": "Перевод со счета"}, {"description": "Открытие вклада"}]
+result = filter_transactions_by_description(transactions, "перевод")
+print(result)  # [{'description': 'Перевод со счета'}]
+```
+
+### Подсчет категорий операций
+
+Функция `count_transaction_categories` подсчитывает количество операций по категориям:
+
+```python
+from src.filters import count_transaction_categories
+
+transactions = [{"description": "Открытие вклада"}, {"description": "Открытие вклада"}]
+result = count_transaction_categories(transactions)
+print(result)  # {'Открытие вклада': 2}
+```
+
+### Конвертация валют
+
+Функция `convert_to_rub` конвертирует суммы в рубли:
+
+```python
+from src.external_api import convert_to_rub
+
+transaction = {
+    "operationAmount": {
+        "amount": 100.0,
+        "currency": {"code": "USD"}
+    }
+}
+rub_amount = convert_to_rub(transaction)
+print(rub_amount)  # Например, 7500.0
+```
+
+# Основной модуль `main.py`
+
+Программа предоставляет интерфейс для работы с пользователем:
+
+* Выберите источник данных (JSON, CSV или Excel).
+* Укажите статус для фильтрации транзакций.
+* Опционально выполните сортировку, фильтрацию по валюте, строке в описании. 
+* Просмотрите итоговые транзакции и статистику.
+
+Для запуска программы выполните:
+
+```python
+python src/main.py
+```
+
+
