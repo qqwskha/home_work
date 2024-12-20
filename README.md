@@ -72,34 +72,38 @@ print(sorted_data)
 
 ### Декоратор `log`
 
-`from src.decorators import log`
+```python
+from src.decorators import log
 
-`@log(filename="mylog.txt")`
-`def add(a, b):
-    return a + b`
+@log(filename="mylog.txt")
+def add(a, b):
+    return a + b
 
-`add(1, 2)`
+add(1, 2)
+```
 
 ## Чтение данных из JSON
 
 ### Функция для чтения данных о транзакциях из JSON-файла:
+```python
+from src.utils import read_json_file`
 
-`from src.utils import read_json_file`
-
-`transactions = read_json_file("data/operations.json")
-print(transactions)`
-
+transactions = read_json_file("data/operations.json")
+print(transactions)
+```
 Если файл пустой, содержит некорректные данные или не найден, возвращается пустой список.
 
 ## Конвертация валюты
 
 ### Функция для конвертации суммы транзакции в рубли:
+```python
+from src.external_api import convert_to_rub
 
-`from src.external_api import convert_to_rub`
-
-`transaction = {"currency": "USD", "amount": 100.0}
+transaction = {"currency": "USD", "amount": 100.0}
 amount_in_rub = convert_to_rub(transaction)
-print(f"Сумма в рублях: {amount_in_rub}")`
+print(f"Сумма в рублях: {amount_in_rub}")
+```
+
 
 
 ## Логирование:
@@ -124,8 +128,6 @@ print(f"Сумма в рублях: {amount_in_rub}")`
 from src.file_processing import read_transactions_from_csv
 
 transactions = read_transactions_from_csv("data/transactions.csv")
-print(transactions)
-
-
-
+print(transactions) 
+```
 
