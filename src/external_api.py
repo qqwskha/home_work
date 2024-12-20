@@ -18,7 +18,8 @@ def convert_to_rub(transaction: Dict[str, Any]) -> float:
     """
     Конвертирует сумму транзакции в рубли.
 
-    :param transaction: Словарь с данными о транзакции. Ожидаются ключи 'operationAmount.amount' и 'operationAmount.currency.code'.
+    :param transaction: Словарь с данными о транзакции.
+    Ожидаются ключи 'operationAmount.amount' и 'operationAmount.currency.code'.
     :return: Сумма транзакции в рублях (float).
     """
     try:
