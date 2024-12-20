@@ -1,8 +1,10 @@
-import pytest
-from unittest.mock import patch, MagicMock
-from src.file_processing import read_transactions_from_csv, read_transactions_from_excel
+from typing import Dict, List
+from unittest.mock import MagicMock, patch
+
 import pandas as pd
-from typing import List, Dict
+import pytest
+
+from src.file_processing import read_transactions_from_csv, read_transactions_from_excel
 
 
 @patch("pandas.read_csv")

@@ -1,10 +1,10 @@
-import pytest
-from unittest.mock import patch, MagicMock
+from typing import Dict
+from unittest.mock import MagicMock, patch
 
+import pytest
 import requests
 
 from src.external_api import convert_to_rub
-from typing import Dict
 
 
 @patch("src.external_api.requests.get")

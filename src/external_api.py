@@ -1,12 +1,13 @@
 import os
-from typing import Dict, Any
+from typing import Any, Dict
+
 import requests
 from dotenv import load_dotenv
 
 # Загрузка переменных окружения из .env
 load_dotenv()
 
-API_KEY: str = os.getenv("EXCHANGE_API_KEY")
+API_KEY: str = os.getenv("EXCHANGE_API_KEY", "")  # Убедимся, что API_KEY всегда строка
 BASE_URL: str = "https://api.apilayer.com/exchangerates_data/convert"
 
 if not API_KEY:
@@ -19,24 +20,18 @@ def convert_to_rub(transaction: Dict[str, Any]) -> float:
 
     :param transaction: Словарь с данными о транзакции. Ожидаются ключи 'operationAmount.amount' и 'operationAmount.currency.code'.
     :return: Сумма транзакции в рублях (float).
-    :raises ValueError: При неверных данных транзакции.
-    :raises ConnectionError: При ошибках соединения с API.
     """
     try:
-        # Извлечение данных о транзакции
         operation_amount: Dict[str, Any] = transaction.get("operationAmount", {})
         amount: float = float(operation_amount.get("amount", 0.0))
         currency: str = operation_amount.get("currency", {}).get("code", "RUB")
 
-        # Если валюта уже в рублях
         if currency == "RUB":
             return amount
 
-        # Поддерживаются только USD и EUR
         if currency not in {"USD", "EUR"}:
             raise ValueError(f"Unsupported currency: {currency}")
 
-        # Параметры запроса
         params: Dict[str, Any] = {
             "to": "RUB",
             "from": currency,
@@ -47,14 +42,11 @@ def convert_to_rub(transaction: Dict[str, Any]) -> float:
             "apikey": API_KEY,
         }
 
-        # Запрос к API
         response = requests.get(BASE_URL, headers=headers, params=params)
-        response.raise_for_status()  # Поднять исключение, если запрос завершился с ошибкой
+        response.raise_for_status()
 
-        # Обработка ответа
         data: Dict[str, Any] = response.json()
-        result = float(data.get("result", 0.0))
-        return result
+        return float(data.get("result", 0.0))
     except requests.RequestException as e:
         raise ConnectionError(f"Error connecting to the currency API: {e}")
     except KeyError as e:
