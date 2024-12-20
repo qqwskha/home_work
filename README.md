@@ -116,5 +116,16 @@ print(f"Сумма в рублях: {amount_in_rub}")`
 * Уровень серьезности (`DEBUG`, `INFO`, `ERROR`).
 * Сообщение.
 
+## Новая функциональность: Чтение CSV и Excel
+
+### Считывание CSV
+Функция `read_transactions_from_csv` читает данные из CSV-файла:
+```python
+from src.file_processing import read_transactions_from_csv
+
+transactions = read_transactions_from_csv("data/transactions.csv")
+print(transactions)
+
+
 
 
