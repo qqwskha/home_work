@@ -72,34 +72,38 @@ print(sorted_data)
 
 ### Декоратор `log`
 
-`from src.decorators import log`
+```python
+from src.decorators import log
 
-`@log(filename="mylog.txt")`
-`def add(a, b):
-    return a + b`
+@log(filename="mylog.txt")
+def add(a, b):
+    return a + b
 
-`add(1, 2)`
+add(1, 2)
+```
 
 ## Чтение данных из JSON
 
 ### Функция для чтения данных о транзакциях из JSON-файла:
+```python
+from src.utils import read_json_file`
 
-`from src.utils import read_json_file`
-
-`transactions = read_json_file("data/operations.json")
-print(transactions)`
-
+transactions = read_json_file("data/operations.json")
+print(transactions)
+```
 Если файл пустой, содержит некорректные данные или не найден, возвращается пустой список.
 
 ## Конвертация валюты
 
 ### Функция для конвертации суммы транзакции в рубли:
+```python
+from src.external_api import convert_to_rub
 
-`from src.external_api import convert_to_rub`
-
-`transaction = {"currency": "USD", "amount": 100.0}
+transaction = {"currency": "USD", "amount": 100.0}
 amount_in_rub = convert_to_rub(transaction)
-print(f"Сумма в рублях: {amount_in_rub}")`
+print(f"Сумма в рублях: {amount_in_rub}")
+```
+
 
 
 ## Логирование:
@@ -124,8 +128,88 @@ print(f"Сумма в рублях: {amount_in_rub}")`
 from src.file_processing import read_transactions_from_csv
 
 transactions = read_transactions_from_csv("data/transactions.csv")
-print(transactions)
+print(transactions) 
+```
 
+# Функциональность
 
+## Фильтрация транзакций по статусу
+
+Используйте функцию `filter_by_state` для фильтрации транзакций по статусу:
+
+```python
+from src.processing import filter_by_state
+
+transactions = [{"id": 1, "state": "EXECUTED"}, {"id": 2, "state": "CANCELED"}]
+filtered = filter_by_state(transactions, "EXECUTED")
+print(filtered)  # [{'id': 1, 'state': 'EXECUTED'}]
+```
+
+## Сортировка транзакций по дате
+
+Функция `sort_by_date` сортирует транзакции по дате:
+
+```python
+from src.processing import sort_by_date
+
+transactions = [{"id": 1, "date": "2023-12-01"}, {"id": 2, "date": "2023-11-30"}]
+sorted_transactions = sort_by_date(transactions, ascending=True)
+print(sorted_transactions)
+```
+## Поиск транзакций по описанию
+
+Функция `filter_transactions_by_description` ищет транзакции, соответствующие строке:
+
+```python
+from src.filters import filter_transactions_by_description
+
+transactions = [{"description": "Перевод со счета"}, {"description": "Открытие вклада"}]
+result = filter_transactions_by_description(transactions, "перевод")
+print(result)  # [{'description': 'Перевод со счета'}]
+```
+
+### Подсчет категорий операций
+
+Функция `count_transaction_categories` подсчитывает количество операций по категориям:
+
+```python
+from src.filters import count_transaction_categories
+
+transactions = [{"description": "Открытие вклада"}, {"description": "Открытие вклада"}]
+result = count_transaction_categories(transactions)
+print(result)  # {'Открытие вклада': 2}
+```
+
+### Конвертация валют
+
+Функция `convert_to_rub` конвертирует суммы в рубли:
+
+```python
+from src.external_api import convert_to_rub
+
+transaction = {
+    "operationAmount": {
+        "amount": 100.0,
+        "currency": {"code": "USD"}
+    }
+}
+rub_amount = convert_to_rub(transaction)
+print(rub_amount)  # Например, 7500.0
+```
+
+# Основной модуль `main.py`
+
+Программа предоставляет интерфейс для работы с пользователем:
+
+* Выберите источник данных (JSON, CSV или Excel).
+* Укажите статус для фильтрации транзакций.
+* Опционально выполните сортировку, фильтрацию по валюте, строке в описании. 
+* Просмотрите итоговые транзакции и статистику.
+
+Для запуска программы выполните:
+
+```python
+python src/main.py
+```
 
 
