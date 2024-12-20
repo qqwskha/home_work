@@ -1,4 +1,4 @@
-from src.filters import filter_transactions_by_description, count_transaction_categories
+from src.filters import count_transaction_categories, filter_transactions_by_description
 
 
 def test_filter_transactions_by_description() -> None:

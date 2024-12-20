@@ -1,8 +1,7 @@
-from typing import List, Dict
-from src.utils import read_json_file
 from src.file_processing import read_transactions_from_csv, read_transactions_from_excel
-from src.filters import filter_transactions_by_description, count_transaction_categories
+from src.filters import count_transaction_categories, filter_transactions_by_description
 from src.processing import filter_by_state, sort_by_date
+from src.utils import read_json_file
 
 
 def main() -> None:
@@ -43,10 +42,11 @@ def main() -> None:
 
     if input("Отсортировать операции по дате? (Да/Нет): ").strip().lower() == "да":
         order = input("Отсортировать по возрастанию или убыванию? ").strip().lower()
-        filtered_transactions = sort_by_date(filtered_transactions, ascending=(order == "по возрастанию"))
+        filtered_transactions = sort_by_date(filtered_transactions, descending=(order == "по убыванию"))
 
     if input("Выводить только рублевые транзакции? (Да/Нет): ").strip().lower() == "да":
-        filtered_transactions = [t for t in filtered_transactions if t.get("operationAmount", {}).get("currency", {}).get("code") == "RUB"]
+        filtered_transactions = [t for t in filtered_transactions
+                                 if t.get("operationAmount", {}).get("currency", {}).get("code") == "RUB"]
 
     if input("Отфильтровать список транзакций по строке в описании? (Да/Нет): ").strip().lower() == "да":
         search = input("Введите строку для поиска в описании: ")
